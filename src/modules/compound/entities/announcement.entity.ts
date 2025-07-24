@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, Property } from '@mikro-orm/postgresql';
+import { Entity, ManyToOne, Property, type Rel } from '@mikro-orm/postgresql';
 import BaseEntity from '../../../core/base/entity';
 import { Compound } from './compound.entity';
 
@@ -17,5 +17,5 @@ export class Announcement extends BaseEntity {
   answers?: any;
 
   @ManyToOne(() => Compound)
-  compound!: Compound;
+  compound!: Rel<Compound>;
 }
