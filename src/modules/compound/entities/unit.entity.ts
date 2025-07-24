@@ -1,4 +1,13 @@
-import { Collection, Entity, EntityRepositoryType, ManyToMany, ManyToOne, Property, t } from '@mikro-orm/postgresql';
+import {
+  Collection,
+  Entity,
+  EntityRepositoryType,
+  ManyToMany,
+  ManyToOne,
+  Property,
+  t,
+  type Rel,
+} from '@mikro-orm/postgresql';
 import BaseEntity from '../../../core/base/entity';
 import BaseRepository from '../../../core/base/repository';
 import { Compound } from './compound.entity';
@@ -12,7 +21,7 @@ export class Unit extends BaseEntity {
   name!: string;
 
   @ManyToOne(() => Compound, { deleteRule: 'cascade' })
-  compound!: Compound;
+  compound!: Rel<Compound>;
 
   @ManyToMany(() => User)
   users = new Collection<User>(this);
