@@ -12,6 +12,7 @@
     "typescript": "^5"
   },
   "scripts": {
+    "start": "bun index.ts",
     "dev": "bun --watch index.ts"
   },
   "dependencies": {
