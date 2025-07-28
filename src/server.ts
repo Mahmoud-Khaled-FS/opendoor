@@ -5,6 +5,7 @@ import setupAuth from './modules/auth';
 import setupUser from './modules/user';
 import setupMedia from './modules/media';
 import setupIntegration from './modules/invitation';
+import setupCompound from './modules/compound';
 import validJsonMiddleware from './core/server/middlewares/validJsonMiddleware';
 import globalErrorHandling from './core/server/middlewares/globalErrorHandling';
 import { authMiddleware } from './modules/auth/middlewares/isAuth';
@@ -29,6 +30,7 @@ export async function server() {
   setupUser(api);
   setupMedia(api);
   setupIntegration(api);
+  setupCompound(api);
 
   app.route('/api/v1', api);
   return app;
