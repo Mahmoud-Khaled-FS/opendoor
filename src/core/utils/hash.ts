@@ -6,6 +6,8 @@ class Hash {
   }
 
   public static async verify(hash: string, target: string): Promise<boolean> {
+    if (!hash) return false;
+    if (!target) return false;
     return await verify(hash, target);
   }
 }
