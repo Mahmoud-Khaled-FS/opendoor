@@ -7,6 +7,7 @@ type UserResponse = {
   fullName: string;
   email?: string | null;
   avatar?: string;
+  phone?: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -16,6 +17,7 @@ export function userResponse(user: User): UserResponse {
     id: user.id,
     fullName: user.fullName,
     email: user.email,
+    phone: user.phone,
     avatar: user.avatar && buildUrl('/u' + user.avatar),
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
