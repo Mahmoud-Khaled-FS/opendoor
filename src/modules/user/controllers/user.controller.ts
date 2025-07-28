@@ -14,12 +14,14 @@ class UserController extends Controller {
   }
 
   public async me(c: Context) {
+    this.userService.dbReset();
     const user = c.get('user');
 
     return this.json(c, AppResponse.success(userResponse(await this.userService.findById(user.id))));
   }
 
   public async deleteMe(c: Context) {
+    this.userService.dbReset();
     const user = c.get('user');
 
     await this.userService.delete(user.id);
@@ -27,6 +29,7 @@ class UserController extends Controller {
   }
 
   public async updateMe(c: Context) {
+    this.userService.dbReset();
     const user = c.get('user');
     const userData = this.validated(c, updateUserRule);
     await this.userService.update(user.id, userData);
@@ -34,6 +37,7 @@ class UserController extends Controller {
   }
 
   public async updateAvatar(c: Context) {
+    this.userService.dbReset();
     const user = c.get('user');
     const imageUUID = this.validated(c, avatarRule).avatar;
     const image = await new TempMediaService().saveMedia(imageUUID);
@@ -42,6 +46,7 @@ class UserController extends Controller {
   }
 
   public async myUnits(c: Context) {
+    this.userService.dbReset();
     const ud = c.get('user');
     const user = await this.userService.findById(ud.id);
     await user.units.load({ populate: ['compound'] });
@@ -49,6 +54,7 @@ class UserController extends Controller {
   }
 
   public async myInvitations(c: Context) {
+    this.userService.dbReset();
     const ud = c.get('user');
     const user = await this.userService.findById(ud.id);
     await user.invitations.load();

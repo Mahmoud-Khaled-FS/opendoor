@@ -6,6 +6,10 @@ abstract class Service {
   constructor() {
     this.db = db();
   }
+
+  public async dbReset(): Promise<void> {
+    this.db = db();
+  }
 }
 
 export default Service;

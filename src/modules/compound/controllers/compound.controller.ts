@@ -10,6 +10,7 @@ class CompoundController extends Controller {
   }
 
   async services(c: Context) {
+    this.compoundService.dbReset();
     const unit = c.get('unit')!;
     const services = await this.compoundService.getCompoundServices(unit.compound.id);
     const response: any = {};

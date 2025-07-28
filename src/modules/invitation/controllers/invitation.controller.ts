@@ -11,12 +11,14 @@ class InvitationController extends Controller {
   }
 
   async create(c: Context) {
+    this.invitationService.dbReset();
     const data = this.validated(c, invitationRule);
     const inv = await this.invitationService.create({ ...data, userId: c.get('user').id!, unitId: c.get('unit').id! });
     return this.json(c, AppResponse.created(invitationResponse(inv)));
   }
 
   async scan(c: Context) {
+    this.invitationService.dbReset();
     const data = this.validated(c, scanRule);
     const inv = await this.invitationService.scan({ ...data, userId: c.get('user').id!, unitId: c.get('unit').id! });
     return this.json(c, AppResponse.success(invitationResponse(inv)));

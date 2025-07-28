@@ -10,12 +10,14 @@ class AnnouncementController extends Controller {
   }
 
   async announcements(c: Context) {
+    this.compoundService.dbReset();
     const unit = c.get('unit')!;
     const announcements = await this.compoundService.getCompoundAnnouncements(unit.compound.id);
     return this.json(c, AppResponse.success(announcements.map((ann) => AnnouncementResponse(ann))));
   }
 
   async voteAnnouncement(c: Context) {
+    this.compoundService.dbReset();
     const unit = c.get('unit')!;
     const announcementId = Number(c.req.param('id'));
     const index = Number(c.req.param('index'));

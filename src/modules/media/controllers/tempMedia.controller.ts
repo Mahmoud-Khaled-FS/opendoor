@@ -12,6 +12,7 @@ class TempMediaController extends Controller {
   }
 
   public async uploadImage(c: Context) {
+    this.mediaService.dbReset();
     const formData = await c.req.formData();
     const file = formData.get('image') as File;
     if (!file) {

@@ -11,6 +11,7 @@ class UserAuthController extends Controller {
   }
 
   public async login(c: Context) {
+    this.authService.dbReset();
     const credentials = this.validated(c, loginRule);
     const res = await this.authService.login(credentials);
 
@@ -18,6 +19,7 @@ class UserAuthController extends Controller {
   }
 
   public async register(c: Context) {
+    this.authService.dbReset();
     const userData = this.validated(c, registerRule);
     const res = await this.authService.register(userData);
 
@@ -25,6 +27,7 @@ class UserAuthController extends Controller {
   }
 
   public async refresh(c: Context) {
+    this.authService.dbReset();
     const token = this.validated(c, refreshRule).refreshToken;
 
     const res = await this.authService.refresh(token);
