@@ -13,14 +13,7 @@ class CompoundController extends Controller {
     this.compoundService.dbReset();
     const unit = c.get('unit')!;
     const services = await this.compoundService.getCompoundServices(unit.compound.id);
-    const response: any = {};
-    for (const service of services) {
-      if (!response[service.category]) {
-        response[service.category] = [];
-      }
-      response[service.category].push(compoundServiceResponse(service));
-    }
-    return this.json(c, AppResponse.success(response));
+    return this.json(c, AppResponse.success(services));
   }
 }
 

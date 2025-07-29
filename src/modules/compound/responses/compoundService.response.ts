@@ -7,6 +7,5 @@ export function compoundServiceResponse(service: CompoundService) {
     description: service.description,
     phone: service.phone,
     category: service.category,
-    compound: service.compound,
   };
 }
