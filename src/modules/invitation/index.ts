@@ -7,7 +7,7 @@ import { validUnitMiddleware } from '../compound/middlewares/validUnit';
 function setup(app: Hono) {
   const invitationController = new InvitationController(new InvitationService());
   const router = new Router('/invitations');
-  router.use(validUnitMiddleware);
+  // router.use(validUnitMiddleware);
 
   router.post('/', invitationController.create.bind(invitationController));
   router.post('/scan', invitationController.scan.bind(invitationController));

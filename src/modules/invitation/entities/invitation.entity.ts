@@ -8,8 +8,8 @@ export class Invitation extends BaseEntity {
   @ManyToOne(() => User)
   inviter!: Rel<User>;
 
-  @ManyToOne(() => Unit)
-  unit!: Rel<Unit>;
+  // @ManyToOne(() => Unit)
+  // unit!: Rel<Unit>;
 
   @Property({ unique: true, index: true })
   token!: string;

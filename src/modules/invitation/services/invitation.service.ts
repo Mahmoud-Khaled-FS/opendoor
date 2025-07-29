@@ -8,12 +8,10 @@ import type { InvitationRule, ScanRule } from '../validation/invitation.rule';
 import AppError from '../../../core/utils/error';
 
 class InvitationService extends Service {
-  async create(data: InvitationRule & { userId: number; unitId: number }) {
+  async create(data: InvitationRule & { userId: number }) {
     const user = this.db.getReference(User, data.userId);
-    const unit = this.db.getReference(Unit, data.unitId);
     const inv = new Invitation();
     inv.inviter = user;
-    inv.unit = unit;
     inv.type = data.type;
     inv.status = 'active';
     inv.startAt = data.startAt;
@@ -30,10 +28,9 @@ class InvitationService extends Service {
     return this.db.find(Invitation, { inviter: user });
   }
 
-  async scan(data: ScanRule & { userId: number; unitId: number }) {
+  async scan(data: ScanRule & { userId: number }) {
     let invitation = await this.db.findOne(Invitation, {
       token: data.token,
-      unit: data.unitId,
       inviter: data.userId,
     });
 
