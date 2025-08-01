@@ -6,6 +6,7 @@ import { User } from '../../user/entities/user.entity';
 import { Invitation } from '../entities/invitation.entity';
 import type { InvitationRule, ScanRule } from '../validation/invitation.rule';
 import AppError from '../../../core/utils/error';
+import { Compound } from '../../compound/entities/compound.entity';
 
 class InvitationService extends Service {
   async create(data: InvitationRule & { userId: number }) {
@@ -69,6 +70,21 @@ class InvitationService extends Service {
     }
 
     return invitation;
+  }
+
+  async getInvitations(compoundId: number, page: number, limit: number) {
+    const invitations = await this.db.findAndCount(
+      Invitation,
+      {
+        inviter: {
+          units: {
+            compound: this.db.getReference(Compound, compoundId),
+          },
+        },
+      },
+      this.getPagination(page, limit),
+    );
+    return invitations;
   }
 }
 

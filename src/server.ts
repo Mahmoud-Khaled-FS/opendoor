@@ -42,5 +42,6 @@ declare module 'hono' {
     body: any;
     user: { id: number; role: string }; // TODO (MAHMOUD) - create role enum
     unit: Unit;
+    compoundId: number;
   }
 }
