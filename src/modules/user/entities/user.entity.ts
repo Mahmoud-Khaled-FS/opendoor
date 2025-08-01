@@ -29,7 +29,7 @@ export class User extends BaseEntity {
   @Property({ default: 'active' })
   status: string = 'active';
 
-  @ManyToMany(() => Unit)
+  @ManyToMany(() => Unit, (unit) => unit.users)
   units = new Collection<Unit>(this);
 
   @OneToMany(() => Invitation, (invitation) => invitation.inviter)
