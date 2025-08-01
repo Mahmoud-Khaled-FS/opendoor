@@ -3,6 +3,8 @@ import Controller from '../../../core/base/controller';
 import AppResponse from '../../../core/utils/response';
 import { compoundServiceResponse } from '../responses/compoundService.response';
 import type CompoundService from '../services/compound.service';
+import { userResponse } from '../../user/responses/user.response';
+import { metadataResponse } from '../../../core/server/responses/metadataResponse';
 
 class CompoundController extends Controller {
   constructor(private readonly compoundService: CompoundService) {
@@ -20,6 +22,20 @@ class CompoundController extends Controller {
       else response.push({ category: service.category, services: [compoundServiceResponse(service)] });
     }
     return this.json(c, AppResponse.success(response));
+  }
+
+  async users(c: Context) {
+    this.compoundService.dbReset();
+    const page = Number(c.req.query('page')) || 1;
+    const limit = Number(c.req.query('limit')) || 10;
+    const [users, total] = await this.compoundService.getCompoundUsers(c.get('compoundId'), page, limit);
+    return this.json(
+      c,
+      AppResponse.success(
+        users.map((u) => userResponse(u)),
+        metadataResponse(total, page, limit),
+      ),
+    );
   }
 }
 

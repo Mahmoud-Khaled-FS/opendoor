@@ -5,6 +5,8 @@ class Router {
   // private readonly factory = createFactory();
   private readonly router = new Hono();
 
+  private readonly middlewares: Handler[] = [];
+
   constructor(private readonly path: string) {}
 
   mount(app: Hono) {
@@ -12,23 +14,23 @@ class Router {
   }
 
   get(path: string, handler: Handler) {
-    this.router.get(path, (c, next) => handler(c, next));
+    this.router.get(path, ...this.middlewares, (c, next) => handler(c, next));
   }
 
   post(path: string, handler: Handler) {
-    this.router.post(path, (c, next) => handler(c, next));
+    this.router.post(path, ...this.middlewares, (c, next) => handler(c, next));
   }
 
   delete(path: string, handler: Handler) {
-    this.router.delete(path, (c, next) => handler(c, next));
+    this.router.delete(path, ...this.middlewares, (c, next) => handler(c, next));
   }
 
   put(path: string, handler: Handler) {
-    this.router.put(path, (c, next) => handler(c, next));
+    this.router.put(path, ...this.middlewares, (c, next) => handler(c, next));
   }
 
   use(handler: Handler) {
-    this.router.use(handler);
+    this.middlewares.push(handler);
   }
 }
 

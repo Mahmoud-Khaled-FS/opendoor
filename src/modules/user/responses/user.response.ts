@@ -1,3 +1,4 @@
+import { metadataResponse } from '../../../core/server/responses/metadataResponse';
 import type { ID } from '../../../core/types/common';
 import { buildUrl } from '../../../core/utils/url';
 import type { User } from '../entities/user.entity';

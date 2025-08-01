@@ -15,10 +15,3 @@ export function invitationResponse(invitation: Invitation) {
     updatedAt: invitation.updatedAt.toISOString(),
   };
 }
-
-export function invitationListResponse(invitations: Invitation[], total: number, page: number, limit: number) {
-  return {
-    data: invitations.map((i) => invitationResponse(i)),
-    metadata: metadataResponse(total, page, limit),
-  };
-}

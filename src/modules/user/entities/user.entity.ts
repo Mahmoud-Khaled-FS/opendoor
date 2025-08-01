@@ -23,6 +23,12 @@ export class User extends BaseEntity {
   @Property({ nullable: true })
   avatar?: string;
 
+  @Property({ nullable: true })
+  role?: string;
+
+  @Property({ default: 'active' })
+  status: string = 'active';
+
   @ManyToMany(() => Unit)
   units = new Collection<Unit>(this);
 

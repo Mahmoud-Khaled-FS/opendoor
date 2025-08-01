@@ -3,7 +3,8 @@ import Controller from '../../../core/base/controller';
 import type InvitationService from '../services/invitation.service';
 import { invitationRule, scanRule } from '../validation/invitation.rule';
 import AppResponse from '../../../core/utils/response';
-import { invitationListResponse, invitationResponse } from '../responses/invitation.response';
+import { invitationResponse } from '../responses/invitation.response';
+import { metadataResponse } from '../../../core/server/responses/metadataResponse';
 
 class InvitationController extends Controller {
   constructor(private readonly invitationService: InvitationService) {
@@ -29,7 +30,13 @@ class InvitationController extends Controller {
     const page = Number(c.req.query('page')) || 1;
     const limit = Number(c.req.query('limit')) || 10;
     const [invitations, total] = await this.invitationService.getInvitations(c.get('compoundId'), page, limit);
-    return this.json(c, AppResponse.success(invitationListResponse(invitations, total, page, limit)));
+    return this.json(
+      c,
+      AppResponse.success(
+        invitations.map((i) => invitationResponse(i)),
+        metadataResponse(total, page, limit),
+      ),
+    );
   }
 }
 
