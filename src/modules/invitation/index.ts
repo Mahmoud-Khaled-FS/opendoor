@@ -8,11 +8,11 @@ function setup(app: Hono) {
   const invitationController = new InvitationController(new InvitationService());
   const router = new Router('/invitations');
   // router.use(validUnitMiddleware);
+  router.use(validCompoundMiddleware);
 
   router.post('/', invitationController.create.bind(invitationController));
   router.post('/scan', invitationController.scan.bind(invitationController));
 
-  router.use(validCompoundMiddleware);
   router.get('/', invitationController.getInvitations.bind(invitationController));
 
   router.mount(app);

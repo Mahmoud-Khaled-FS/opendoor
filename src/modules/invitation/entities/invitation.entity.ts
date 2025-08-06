@@ -29,6 +29,9 @@ export class Invitation extends BaseEntity {
   @Property({ nullable: true })
   lastScanAt?: Date;
 
+  @Property({ nullable: true })
+  compoundId?: number;
+
   @Property()
   type: 'one-time' | 'interval' = 'one-time';
 

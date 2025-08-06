@@ -14,7 +14,7 @@ class InvitationController extends Controller {
   async create(c: Context) {
     this.invitationService.dbReset();
     const data = this.validated(c, invitationRule);
-    const inv = await this.invitationService.create({ ...data, userId: c.get('user').id! });
+    const inv = await this.invitationService.create({ ...data, userId: c.get('user').id!, compoundId: c.get('compoundId') });
     return this.json(c, AppResponse.created(invitationResponse(inv)));
   }
 

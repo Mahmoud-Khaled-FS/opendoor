@@ -5,6 +5,7 @@ import { compoundServiceResponse } from '../responses/compoundService.response';
 import type CompoundService from '../services/compound.service';
 import { userResponse } from '../../user/responses/user.response';
 import { metadataResponse } from '../../../core/server/responses/metadataResponse';
+import type { User } from '../../user/entities/user.entity';
 
 class CompoundController extends Controller {
   constructor(private readonly compoundService: CompoundService) {
@@ -28,7 +29,13 @@ class CompoundController extends Controller {
     this.compoundService.dbReset();
     const page = Number(c.req.query('page')) || 1;
     const limit = Number(c.req.query('limit')) || 10;
-    const [users, total] = await this.compoundService.getCompoundUsers(c.get('compoundId'), page, limit);
+    let users: User[];
+    let total: number;
+    if (c.req.query('suspended') === 'true') {
+      [users, total] = await this.compoundService.getUserRequest(c.get('compoundId'), page, limit);
+    } else {
+      [users, total] = await this.compoundService.getCompoundUsers(c.get('compoundId'), page, limit);
+    }
     return this.json(
       c,
       AppResponse.success(

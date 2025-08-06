@@ -3,6 +3,7 @@ import BaseEntity from '../../../core/base/entity';
 import BaseRepository from '../../../core/base/repository';
 import { Unit } from '../../compound/entities/unit.entity';
 import { Invitation } from '../../invitation/entities/invitation.entity';
+import { UnitUser } from '../../compound/entities/unitUser.entity';
 
 @Entity({ repository: () => BaseRepository })
 export class User extends BaseEntity {
@@ -23,14 +24,14 @@ export class User extends BaseEntity {
   @Property({ nullable: true })
   avatar?: string;
 
-  @Property({ nullable: true })
-  role?: string;
-
   @Property({ default: 'active' })
   status: string = 'active';
 
-  @ManyToMany(() => Unit, (unit) => unit.users)
+  @ManyToMany(() => Unit, (unit) => unit.users, { pivotEntity: () => UnitUser })
   units = new Collection<Unit>(this);
+
+  @OneToMany(() => UnitUser, (unitUser) => unitUser.user)
+  unitUsers = new Collection<UnitUser>(this);
 
   @OneToMany(() => Invitation, (invitation) => invitation.inviter)
   invitations = new Collection<Invitation>(this);

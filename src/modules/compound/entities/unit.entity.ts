@@ -4,6 +4,7 @@ import {
   EntityRepositoryType,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   Property,
   type Rel,
 } from '@mikro-orm/postgresql';
@@ -17,7 +18,7 @@ import { UnitUser } from './unitUser.entity';
 export class Unit extends BaseEntity {
   [EntityRepositoryType]?: BaseRepository<Unit>;
 
-  @Property({ unique: true })
+  @Property()
   name!: string;
 
   @ManyToOne(() => Compound, { deleteRule: 'cascade' })
@@ -25,4 +26,7 @@ export class Unit extends BaseEntity {
 
   @ManyToMany({ entity: () => User, pivotEntity: () => UnitUser })
   users = new Collection<User>(this);
+
+  @OneToMany(() => UnitUser, (unitUser) => unitUser.unit)
+  unitUsers = new Collection<UnitUser>(this);
 }

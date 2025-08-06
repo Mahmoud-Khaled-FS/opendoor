@@ -10,21 +10,28 @@ type UserResponse = {
   avatar?: string;
   phone?: string;
   status: string;
-  role?: string;
+  units?: any[];
   createdAt: Date;
   updatedAt: Date;
 };
 
 export function userResponse(user: User): UserResponse {
-  return {
+  let response = {
     id: user.id,
     fullName: user.fullName,
     email: user.email,
     phone: user.phone,
     avatar: user.avatar && buildUrl('/u' + user.avatar),
     status: user.status,
-    role: user.role,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
   };
+  if (user.unitUsers) {
+    response.units = user.unitUsers.isInitialized()
+      ? user.unitUsers.map((u) => ({
+          id: u.unit.id,
+          name: u.unit.name,
+          role: u.role,
+        }))
+      : undefined;
+  }
+  return response;
 }

@@ -3,7 +3,7 @@ import { OptionalProps, PrimaryKey, Property } from '@mikro-orm/core';
 abstract class BaseEntity {
   [OptionalProps]?: 'createdAt' | 'updatedAt';
 
-  @PrimaryKey()
+  @PrimaryKey({ type: 'number' })
   id!: number;
 
   @Property()
