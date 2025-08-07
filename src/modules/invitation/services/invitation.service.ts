@@ -9,7 +9,7 @@ import AppError from '../../../core/utils/error';
 import { Compound } from '../../compound/entities/compound.entity';
 
 class InvitationService extends Service {
-  async create(data: InvitationRule & { userId: number, compoundId: number }) {
+  async create(data: InvitationRule & { userId: number; compoundId: number }) {
     const user = this.db.getReference(User, data.userId);
     const inv = new Invitation();
     inv.inviter = user;
@@ -19,7 +19,7 @@ class InvitationService extends Service {
     inv.endAt = data.endAt;
     inv.totalScanCount = data.totalScanCount ?? 0;
     inv.token = crypto.randomBytes(12).toString('hex');
-    inv.compoundId = data.compoundId;
+    inv.compound = this.db.getReference(Compound, data.compoundId);
 
     await this.db.persistAndFlush(inv);
     return inv;
@@ -73,15 +73,12 @@ class InvitationService extends Service {
     return invitation;
   }
 
-  async getInvitations(compoundId: number, page: number, limit: number) {
+  async getInvitations(compoundId: number, page: number, limit: number, userId?: number) {
     const invitations = await this.db.findAndCount(
       Invitation,
       {
-        inviter: {
-          units: {
-            compound: this.db.getReference(Compound, compoundId),
-          },
-        },
+        ...(userId ? { inviter: this.db.getReference(User, userId) } : {}),
+        compound: this.db.getReference(Compound, compoundId),
       },
       this.getPagination(page, limit),
     );

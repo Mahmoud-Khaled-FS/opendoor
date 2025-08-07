@@ -14,6 +14,7 @@ function setup(app: Hono) {
   router.post('/scan', invitationController.scan.bind(invitationController));
 
   router.get('/', invitationController.getInvitations.bind(invitationController));
+  router.get('/user', invitationController.getInvitationsByUser.bind(invitationController));
 
   router.mount(app);
 }

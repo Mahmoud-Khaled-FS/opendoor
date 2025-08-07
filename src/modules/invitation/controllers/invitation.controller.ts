@@ -14,7 +14,11 @@ class InvitationController extends Controller {
   async create(c: Context) {
     this.invitationService.dbReset();
     const data = this.validated(c, invitationRule);
-    const inv = await this.invitationService.create({ ...data, userId: c.get('user').id!, compoundId: c.get('compoundId') });
+    const inv = await this.invitationService.create({
+      ...data,
+      userId: c.get('user').id!,
+      compoundId: c.get('compoundId'),
+    });
     return this.json(c, AppResponse.created(invitationResponse(inv)));
   }
 
@@ -30,6 +34,25 @@ class InvitationController extends Controller {
     const page = Number(c.req.query('page')) || 1;
     const limit = Number(c.req.query('limit')) || 10;
     const [invitations, total] = await this.invitationService.getInvitations(c.get('compoundId'), page, limit);
+    return this.json(
+      c,
+      AppResponse.success(
+        invitations.map((i) => invitationResponse(i)),
+        metadataResponse(total, page, limit),
+      ),
+    );
+  }
+
+  async getInvitationsByUser(c: Context) {
+    this.invitationService.dbReset();
+    const page = Number(c.req.query('page')) || 1;
+    const limit = Number(c.req.query('limit')) || 10;
+    const [invitations, total] = await this.invitationService.getInvitations(
+      c.get('compoundId'),
+      page,
+      limit,
+      c.get('user').id,
+    );
     return this.json(
       c,
       AppResponse.success(

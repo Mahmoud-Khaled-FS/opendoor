@@ -2,6 +2,7 @@ import { Entity, ManyToOne, Property, type Rel } from '@mikro-orm/postgresql';
 import BaseEntity from '../../../core/base/entity';
 import { User } from '../../user/entities/user.entity';
 import { Unit } from '../../compound/entities/unit.entity';
+import { Compound } from '../../compound/entities/compound.entity';
 
 @Entity()
 export class Invitation extends BaseEntity {
@@ -29,8 +30,8 @@ export class Invitation extends BaseEntity {
   @Property({ nullable: true })
   lastScanAt?: Date;
 
-  @Property({ nullable: true })
-  compoundId?: number;
+  @ManyToOne(() => Compound, { nullable: true })
+  compound?: Rel<Compound>;
 
   @Property()
   type: 'one-time' | 'interval' = 'one-time';
