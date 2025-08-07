@@ -1,4 +1,3 @@
-import { metadataResponse } from '../../../core/server/responses/metadataResponse';
 import type { Invitation } from '../entities/invitation.entity';
 
 export function invitationResponse(invitation: Invitation) {
@@ -9,6 +8,7 @@ export function invitationResponse(invitation: Invitation) {
     type: invitation.type,
     totalScanCount: invitation.totalScanCount,
     usedScanCount: invitation.scanCount,
+    compoundId: invitation.compoundId,
     startAt: invitation.startAt?.toISOString() ?? null,
     endAt: invitation.endAt?.toISOString() ?? null,
     createdAt: invitation.createdAt.toISOString(),
