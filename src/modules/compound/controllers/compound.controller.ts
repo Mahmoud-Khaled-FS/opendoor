@@ -14,8 +14,8 @@ class CompoundController extends Controller {
 
   async services(c: Context) {
     this.compoundService.dbReset();
-    const unit = c.get('unit')!;
-    const services = await this.compoundService.getCompoundServices(unit.compound.id);
+    // const unit = c.get('unit')!;
+    const services = await this.compoundService.getCompoundServices(1); // FIXED (MAHMOUD) - Remove static compound id
     const response: Record<string, any>[] = [];
     for (const service of services) {
       const indexOfCategory = response.findIndex((r) => r.category === service.category);

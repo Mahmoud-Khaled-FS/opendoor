@@ -23,7 +23,7 @@ function setup(app: Hono) {
   cr.mount(app);
 
   const router = new Router('/');
-  router.use(validUnitMiddleware);
+  // router.use(validUnitMiddleware);
 
   router.get('/services', compoundController.services.bind(compoundController));
   router.get('/announcements', announcementController.announcements.bind(compoundController));

@@ -11,8 +11,8 @@ class AnnouncementController extends Controller {
 
   async announcements(c: Context) {
     this.compoundService.dbReset();
-    const unit = c.get('unit')!;
-    const announcements = await this.compoundService.getCompoundAnnouncements(unit.compound.id);
+    // const unit = c.get('unit')!;
+    const announcements = await this.compoundService.getCompoundAnnouncements(1); // FIXED (MAHMOUD) - Remove static compound id
     return this.json(c, AppResponse.success(announcements.map((ann) => AnnouncementResponse(ann))));
   }
 
