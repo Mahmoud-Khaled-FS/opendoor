@@ -43,7 +43,7 @@ class InvitationController extends Controller {
     return this.json(
       c,
       AppResponse.created({
-        unit: unitWithCompoundResponse(unit),
+        unit: unitWithCompoundResponse(unit, c.get('user')),
       }),
     );
   }
