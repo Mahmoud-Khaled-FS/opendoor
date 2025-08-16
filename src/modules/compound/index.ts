@@ -13,13 +13,13 @@ function setup(app: Hono) {
   const announcementController = new AnnouncementController(compoundService);
   const invitationController = new InvitationController(compoundService);
   const cr = new Router('/');
-  cr.use(validCompoundMiddleware);
 
+  cr.post('/compounds/invitations/:code', invitationController.join.bind(invitationController));
+  cr.post('/compounds/invitations/:userId/accept', invitationController.acceptRequest.bind(invitationController));
+  cr.use(validCompoundMiddleware);
   cr.get('/users', compoundController.users.bind(compoundController));
   cr.get('/compounds/invitations', invitationController.getInvitations.bind(invitationController));
   cr.post('/compounds/invitations', invitationController.create.bind(invitationController));
-  cr.post('/compounds/invitations/:code', invitationController.join.bind(invitationController));
-  cr.post('/compounds/invitations/:userId/accept', invitationController.acceptRequest.bind(invitationController));
   cr.mount(app);
 
   const router = new Router('/');
