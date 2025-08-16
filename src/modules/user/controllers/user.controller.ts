@@ -49,8 +49,8 @@ class UserController extends Controller {
     this.userService.dbReset();
     const ud = c.get('user');
     const user = await this.userService.findById(ud.id);
-    await user.units.load({ populate: ['compound'] });
-    return this.json(c, AppResponse.success(user.units.map((unit) => unitWithCompoundResponse(unit))));
+    await user.units.load({ populate: ['compound', 'unitUsers'] });
+    return this.json(c, AppResponse.success(user.units.map((unit) => unitWithCompoundResponse(unit, user))));
   }
 
   public async myInvitations(c: Context) {
